@@ -33,31 +33,33 @@ const Connections = () => {
       </div>
     );
   }
-  return (
-    <div className="flex justify-center my-10">
-      <div className="text-bold text-2xl">
-        {connections.map((connection) => {
-          const { firstName, lastName, age, gender, photoUrl, about , _id} =
-            connection;
 
-          return (
-            <div key={_id} className="card card-side bg-base-300 shadow-sm">
-              <figure className="w-40 h-40 overflow-hidden">
-                <img
-                  className="object-cover w-full h-full"
-                  src={photoUrl}
-                  alt="connection name"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{firstName + " " + lastName}</h2>
-                {age && gender && <span>{age + " " + gender}</span>}
-                <p>{about}</p>
-              </div>
+  return (
+    <div className="flex flex-col gap-8 items-center my-10">
+      {connections.map((connection) => {
+        const { firstName, lastName, age, gender, photoUrl, about, _id } =
+          connection;
+
+        return (
+          <div
+            key={_id}
+            className="card card-side bg-base-300 shadow-md w-full max-w-xl"
+          >
+            <figure className="w-40 h-40 overflow-hidden">
+              <img
+                className="object-cover w-full h-full"
+                src={photoUrl}
+                alt={firstName + " " + lastName}
+              />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{firstName + " " + lastName}</h2>
+              {age && gender && <span>{age + " • " + gender}</span>}
+              <p>{about}</p>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
