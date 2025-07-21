@@ -14,12 +14,11 @@ const EditProfile = ({ user }) => {
   const [about, setAbout] = useState(user.about || "");
   const [skills, setSkills] = useState(user.skills || "");
   const [skillInput, setSkillInput] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
-
-  console.log(about);
 
   const saveProfile = async () => {
     setError("");
@@ -29,23 +28,27 @@ const EditProfile = ({ user }) => {
         { firstName, lastName, photoUrl, age, gender, about, skills },
         { withCredentials: true }
       );
-      console.log(res?.data?.data);
+
       dispatch(addUser(res?.data?.data));
+      setShowToast(true);
+
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
     } catch (err) {
-      console.log(err);
-      setError(err.message);
+      setError(err.response.data);
     }
   };
 
   return (
     <>
-      <div className="flex justify-center items-start gap-8 p-8 max-w-7xl mx-auto">
+      <div className="flex justify-center gap-8 p-2">
         <div className="flex justify-center mx-10">
           <div className="card bg-primary text-primary-content w-[380px] shadow-lg">
             <div className="card-body">
               <h2 className="card-title">Edit Profile</h2>
               <div>
-                <fieldset className="fieldset py-4">
+                <fieldset className="fieldset py-1">
                   <legend className="fieldset-legend">First Name</legend>
                   <input
                     type="text"
@@ -55,7 +58,7 @@ const EditProfile = ({ user }) => {
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </fieldset>
-                <fieldset className="fieldset py-4">
+                <fieldset className="fieldset py-1">
                   <legend className="fieldset-legend">Last Name</legend>
                   <input
                     type="text"
@@ -65,7 +68,7 @@ const EditProfile = ({ user }) => {
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </fieldset>
-                <fieldset className="fieldset py-4">
+                <fieldset className="fieldset py-1">
                   <legend className="fieldset-legend">PhotoUrl</legend>
                   <input
                     type="text"
@@ -73,12 +76,11 @@ const EditProfile = ({ user }) => {
                     value={photoUrl}
                     placeholder="Photo URL"
                     onChange={(e) => {
-                      console.log(e.target.value);
                       return setPhotoUrl(e.target.value);
                     }}
                   />
                 </fieldset>
-                <fieldset className="fieldset py-4">
+                <fieldset className="fieldset py-1">
                   <legend className="fieldset-legend">Age</legend>
                   <input
                     type="text"
@@ -88,7 +90,7 @@ const EditProfile = ({ user }) => {
                     onChange={(e) => setAge(e.target.value)}
                   />
                 </fieldset>
-                <fieldset className="fieldset py-4">
+                <fieldset className="fieldset py-1">
                   <legend className="fieldset-legend">Gender</legend>
                   <select
                     className="input"
@@ -100,9 +102,9 @@ const EditProfile = ({ user }) => {
                     <option value="other">Other</option>
                   </select>
                 </fieldset>
-                <fieldset className="form-control w-full max-w-xs my-4">
+                <fieldset className="fieldset">
                   <div className="label">
-                    <span className="label-text">About</span>
+                    <legend className="fieldset-legend">About</legend>
                   </div>
                   <textarea
                     type="text"
@@ -112,9 +114,9 @@ const EditProfile = ({ user }) => {
                     onChange={(e) => setAbout(e.target.value)}
                   ></textarea>
                 </fieldset>
-                <fieldset className="form-control w-full max-w-xs my-4">
+                <fieldset className="fieldset">
                   <div className="label">
-                    <span className="label-text">Skills</span>
+                    <legend className="fieldset-legend">Skills</legend>
                   </div>
                   <div className="flex gap-2">
                     <input
@@ -152,8 +154,6 @@ const EditProfile = ({ user }) => {
                       Add
                     </button>
                   </div>
-
-                  {/* Show added skills */}
                   <div className="flex flex-wrap mt-2 gap-2">
                     {skills.map((skill, index) => (
                       <span
@@ -185,6 +185,13 @@ const EditProfile = ({ user }) => {
           />
         </div>
       </div>
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            <span>Profile saved successfully.</span>
+          </div>
+        </div>
+      )}
     </>
   );
 };
