@@ -1,44 +1,45 @@
 import axios from "axios";
 import BASE_URL from "../utils/constant";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../utils/connectionSlice";
+import { addRequests } from "../utils/requestSlice";
+import { useEffect } from "react";
 
-const Connections = () => {
-  const connections = useSelector((store) => store.connection);
+const Requests = () => {
+  const requests = useSelector((store) => store.request);
   const dispatch = useDispatch();
 
-  const featchConnections = async () => {
+  const fetchRequest = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
-
-      dispatch(addConnections(res?.data?.data));
+      console.log(res?.data?.data?.fromUserId);
+      dispatch(addRequests(res?.data?.data));
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    featchConnections();
+    fetchRequest();
   }, []);
 
-  if (!connections) return;
 
-  if (connections.length === 0) {
+  if (!requests) return;
+
+  if (requests.length === 0) {
     return (
       <div className="flex justify-center my-10">
-        <h1 className="text-bold text-2xl">No Connections</h1>
+        <h1 className="text-bold text-2xl">No Request Found</h1>
       </div>
     );
   }
+
   return (
     <div className="flex justify-center my-10">
       <div className="text-bold text-2xl">
-        {connections.map((connection) => {
-          const { firstName, lastName, age, gender, photoUrl, about , _id} =
-            connection;
+        {requests.map((request) => {
+          const { firstName, lastName, age, gender, photoUrl, about , _id} = request.fromUserId;
 
           return (
             <div key={_id} className="card card-side bg-base-300 shadow-sm">
@@ -53,6 +54,10 @@ const Connections = () => {
                 <h2 className="card-title">{firstName + " " + lastName}</h2>
                 {age && gender && <span>{age + " " + gender}</span>}
                 <p>{about}</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-success">Accept</button>
+                  <button className="btn btn-error">Reject</button>
+                </div>
               </div>
             </div>
           );
@@ -62,4 +67,4 @@ const Connections = () => {
   );
 };
 
-export default Connections;
+export default Requests;

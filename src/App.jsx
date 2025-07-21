@@ -6,6 +6,7 @@ import Profile from "./Components/Profile";
 import Body from "./Components/Body";
 import Feed from "./Components/Feed";
 import Connections from "./Components/Connections";
+import Requests from "./Components/Requests";
 
 import appStore from "./utils/appStore";
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections/>}/>
+              <Route path="/requests" element={<Requests/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
