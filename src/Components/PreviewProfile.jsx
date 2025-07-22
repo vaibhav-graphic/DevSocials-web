@@ -7,7 +7,7 @@ const PreviewProfile = ({ user }) => {
         <img
           src={photoUrl}
           alt="user photo"
-          className="w-70 h-70 object-cover rounded-full"
+          className="w-70 h-70 object-cover"
         />
       </figure>
       <div className="card-body">

@@ -41,8 +41,8 @@ const EditProfile = ({ user }) => {
   };
 
   return (
-    <>
-      <div className="flex justify-center gap-8 p-2">
+    <div className="min-h-screen overflow-auto p-4 pb-32 bg-base-100">
+      <div className="flex justify-center gap-8 p-2 flex-wrap">
         <div className="flex justify-center mx-10">
           <div className="card bg-primary text-primary-content w-[380px] shadow-lg">
             <div className="card-body">
@@ -185,6 +185,7 @@ const EditProfile = ({ user }) => {
           />
         </div>
       </div>
+      
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
@@ -192,7 +193,7 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
