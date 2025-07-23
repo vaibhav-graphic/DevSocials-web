@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:7777";
+const BASE_URL = window.location.hostname === "localhost" ? "http://localhost:7777" : "/api";
 
 
 export default BASE_URL;
